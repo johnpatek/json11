@@ -1,4 +1,50 @@
 cmake_minimum_required(VERSION 2.8)
+
+project(json11)
+
+if(CMAKE_VERSION VERSION_LESS "3")
+  add_definitions(-std=c++11)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+
+
+# Only do these if this is the main project, and not if it is included through add_subdirectory
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+    include(CTest)
+    find_package(Doxygen)
+    if(Doxygen_FOUND)
+	add_subdirectory(docs)
+    else()
+	message(STATUS "Doxygen not found, not building docs")
+    endif()
+endif()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (CMAKE_VERSION VERSION_LESS "3")
   project(json11 CXX)
 else()
@@ -11,12 +57,6 @@ enable_testing()
 option(JSON11_BUILD_TESTS "Build unit tests" OFF)
 option(JSON11_ENABLE_DR1467_CANARY "Enable canary test for DR 1467" OFF)
 
-if(CMAKE_VERSION VERSION_LESS "3")
-  add_definitions(-std=c++11)
-else()
-  set(CMAKE_CXX_STANDARD 11)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX /usr)
