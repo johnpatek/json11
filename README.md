@@ -12,30 +12,36 @@ Json::parse (static) to parse a std::string as a Json object.
 
 It's easy to make a JSON object with C++11's new initializer syntax:
 
-    Json my_json = Json::object {
-        { "key1", "value1" },
-        { "key2", false },
-        { "key3", Json::array { 1, 2, 3 } },
-    };
-    std::string json_str = my_json.dump();
+```C++
+Json my_json = Json::object {
+    { "key1", "value1" },
+    { "key2", false },
+    { "key3", Json::array { 1, 2, 3 } },
+};
+std::string json_str = my_json.dump();
+```
 
 There are also implicit constructors that allow standard and user-defined types to be
 automatically converted to JSON. For example:
 
-    class Point {
-    public:
-        int x;
-        int y;
-        Point (int x, int y) : x(x), y(y) {}
-        Json to_json() const { return Json::array { x, y }; }
-    };
+```C++
+class Point {
+public:
+    int x;
+    int y;
+    Point (int x, int y) : x(x), y(y) {}
+    Json to_json() const { return Json::array { x, y }; }
+};
 
-    std::vector<Point> points = { { 1, 2 }, { 10, 20 }, { 100, 200 } };
-    std::string points_json = Json(points).dump();
+std::vector<Point> points = { { 1, 2 }, { 10, 20 }, { 100, 200 } };
+std::string points_json = Json(points).dump();
+```
 
 JSON values can have their values queried and inspected:
 
-    Json json = Json::array { Json::object { { "k", "v" } } };
-    std::string str = json[0]["k"].string_value();
+```C++
+Json json = Json::array { Json::object { { "k", "v" } } };
+std::string str = json[0]["k"].string_value();
+```
 
 For more documentation see json11.hpp.

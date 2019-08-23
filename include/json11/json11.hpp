@@ -87,11 +87,37 @@ public:
     typedef std::vector<Json> array;
     typedef std::map<std::string, Json> object;
 
-    // Constructors for the various types of JSON value.
-    Json() noexcept;                // NUL
+    /**
+     * @brief Json empty constructor
+     */
+    Json() noexcept;
+
+    /**
+     * @brief Json Null type constructor
+     * 
+     * @param[in] std::nullptr_t C++ to be stored as NULL
+     */
     Json(std::nullptr_t) noexcept;  // NUL
-    Json(double value);             // NUMBER
-    Json(int value);                // NUMBER
+    
+    /**
+     * @brief Json Number type constr
+     * 
+     * @param[in] value Decimal value to be stored as a NUMBER
+     */
+    Json(double value);
+
+    /**
+     * @brief Json Number type constr
+     * 
+     * @param[in] value Integer to be stored as a NUMBER
+     */
+    Json(int value);
+    
+    /**
+     * @brief Json Number type constr
+     * 
+     * @param[in] value Boolean to be stored as a BOOL
+     */
     Json(bool value);               // BOOL
     Json(const std::string &value); // STRING
     Json(std::string &&value);      // STRING
