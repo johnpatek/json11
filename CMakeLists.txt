@@ -27,6 +27,7 @@ if(BUILD_EXAMPLES)
 endif()
 
 if(BUILD_TESTS)
+    include(CTest)
     message(STATUS "Building tests")
     add_subdirectory(tests)
 endif()
