@@ -84,6 +84,7 @@ void client(
     while(valread == 1024);
 
     std::cerr << response.str() << std::endl;
+    close(client_fd);
 }
 
 int main()
@@ -95,7 +96,7 @@ int main()
     json11::Json::array msg_array;
     do
     {
-        std::cerr << "command: ";
+        std::cerr << "client@127.0.0.1$ ";
         std::getline(std::cin,line);
         tokenize(line,tokens);
         serialize(tokens,command);

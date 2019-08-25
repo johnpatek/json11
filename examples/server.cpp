@@ -29,7 +29,7 @@ void server_loop()
     struct sockaddr_in address;
     int addrlen = sizeof(address);
     server_fd = socket(AF_INET,SOCK_STREAM,0);
-    char buffer[1024];
+    char buffer[1024] = {0};
     std::stringstream request;
     std::string response = "hello from the server";
     if(server_fd < 0)
@@ -76,10 +76,12 @@ void server_loop()
     do
     {
         valread = read(connection,buffer,1024);
-        std::cerr << valread << " byted read" << std::endl;
         request << buffer;
     } while (valread == 1024);
+    std::cerr << "localhost received: " << request.str() << std::endl;
     send(connection,response.c_str(),response.size(),0);
+    close(server_fd);
+    close(connection);
 }
 
 int main()
