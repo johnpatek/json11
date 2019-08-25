@@ -200,7 +200,11 @@ public:
             return nullptr;
         }
     }
-    // Parse multiple objects, concatenated or separated by whitespace
+    /**
+     * @brief Parse multiple objects, concatenated or separated by whitespace
+     * 
+     * @param[in] value Boolean to be stored as a BOOL
+     */
     static std::vector<Json> parse_multi(
         const std::string & in,
         std::string::size_type & parser_stop_pos,
