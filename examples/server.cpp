@@ -4,7 +4,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * OUT OF OR IN client_fd WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
  * file: server.cpp
@@ -23,15 +23,40 @@
 #include <unistd.h> 
 
 
+void process_request(
+    const std::string& request,
+    std::string& response);
+
+void server_loop();
+
+int main()
+{
+    int status(EXIT_SUCCESS);
+    bool exit(false);
+    while(!exit)
+    {
+        try
+        {
+            server_loop();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+            exit = true;
+        }
+    }
+    return status;
+}
+
 void server_loop()
 {
-    int server_fd, connection, opt(1), valread;
+    int server_fd, client_fd, opt(1), valread;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
     server_fd = socket(AF_INET,SOCK_STREAM,0);
     char buffer[1024] = {0};
     std::stringstream request;
-    std::string response = "hello from the server";
+    std::string response("<html><body><h1>hello from the server</h1></body></html>");
     if(server_fd < 0)
     {
         throw std::runtime_error("socket failed");
@@ -64,43 +89,61 @@ void server_loop()
         throw std::runtime_error("listen failed");
     }
 
-    connection = accept(
+    client_fd = accept(
         server_fd, 
         (struct sockaddr *)&address,  
         (socklen_t*)&addrlen);
-    if(connection < 0)
+    if(client_fd < 0)
     {
         throw std::runtime_error("accept failed");
     }
 
     do
     {
-        valread = read(connection,buffer,1024);
+        valread = read(client_fd,buffer,1024);
         request << buffer;
     } while (valread == 1024);
     std::cerr << "localhost received: " << request.str() << std::endl;
-    send(connection,response.c_str(),response.size(),0);
+    process_request(request.str(),response);
+    send(client_fd,response.c_str(),response.size(),0);
     close(server_fd);
-    close(connection);
+    close(client_fd);
 }
 
-int main()
+void process_request(
+    const std::string& request,
+    std::string& response)
 {
-    int status(EXIT_SUCCESS);
-    bool exit(false);
-    while(!exit)
+    std::string error;
+    std::stringstream response_stream;
+    json11::Json::array request_array = json11::Json::parse(
+        request.c_str(),
+        error).array_items();
+    if (request_array.size() > 0)
     {
-        try
+        if(request_array[0] == "add")
         {
-            server_loop();
+            if(request_array.size() == 3)
+            {
+                std::string a = request_array[1].string_value().c_str();
+                std::string b = request_array[2].string_value().c_str();
+                std::cerr << a 
+                        << " + " 
+                        << b 
+                        << std::endl;
+                response_stream << atoi(a.c_str()) + atoi(b.c_str());
+                response = response_stream.str();
+            }
+            else
+            {
+                std::cerr << "bad request" << std::endl;
+            }
+            
         }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << std::endl;
-            exit = true;
-        }
-        
-        server_loop();
     }
-    return status;
+    else
+    {
+        response = "bad request";
+    }
+    
 }

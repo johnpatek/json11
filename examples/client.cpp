@@ -93,7 +93,6 @@ int main()
     std::vector<std::string> tokens;
     std::string line,message,error;
     json11::Json command;
-    json11::Json::array msg_array;
     do
     {
         std::cerr << "client@127.0.0.1$ ";
@@ -110,7 +109,5 @@ int main()
         }
         tokens.clear();
     } while (line != "exit");
-    
-
     return status;
 }
