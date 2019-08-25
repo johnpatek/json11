@@ -132,18 +132,72 @@ void process_request(
                         << b 
                         << std::endl;
                 response_stream << atoi(a.c_str()) + atoi(b.c_str());
-                response = response_stream.str();
             }
             else
             {
-                std::cerr << "bad request" << std::endl;
+                response_stream << "syntax: add a b" << std::endl;
             }
-            
         }
+        else if(request_array[0] == "sub")
+        {
+            if(request_array.size() == 3)
+            {
+                std::string a = request_array[1].string_value().c_str();
+                std::string b = request_array[2].string_value().c_str();
+                std::cerr << a 
+                        << " - " 
+                        << b 
+                        << std::endl;
+                response_stream << atoi(a.c_str()) - atoi(b.c_str());
+            }
+            else
+            {
+                response_stream << "syntax: sub a b" << std::endl;
+            }            
+        }
+        else if(request_array[0] == "mlt")
+        {
+            if(request_array.size() == 3)
+            {
+                std::string a = request_array[1].string_value().c_str();
+                std::string b = request_array[2].string_value().c_str();
+                std::cerr << a 
+                        << " * " 
+                        << b 
+                        << std::endl;
+                response_stream << atoi(a.c_str()) * atoi(b.c_str());
+            }
+            else
+            {
+                response_stream << "syntax: mlt a b" << std::endl;
+            }
+        }
+        else if(request_array[0] == "div")
+        {
+            if(request_array.size() == 3)
+            {
+                std::string a = request_array[1].string_value().c_str();
+                std::string b = request_array[2].string_value().c_str();
+                std::cerr << a 
+                        << " / " 
+                        << b 
+                        << std::endl;
+                response_stream << atoi(a.c_str()) / atoi(b.c_str());
+            }
+            else
+            {
+                response_stream << "syntax: div a b" << std::endl;
+            }
+        }
+        else
+        {
+            response_stream << "what the fug :D :D" << std::endl;
+        }
+        response = response_stream.str();
     }
     else
     {
-        response = "bad request";
+        response = "blank request";
     }
     
 }
