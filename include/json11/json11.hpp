@@ -203,7 +203,9 @@ public:
     /**
      * @brief Parse multiple objects, concatenated or separated by whitespace
      * 
-     * @param[in] value Boolean to be stored as a BOOL
+     * @param[in] in String representation of json
+     * @param[in] parser_stop_pos The position in the string to stop parsing
+     * @param[out] err String for storing any error message associated with parsing the input string
      */
     static std::vector<Json> parse_multi(
         const std::string & in,

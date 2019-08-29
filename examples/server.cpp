@@ -56,7 +56,7 @@ void server_loop()
     server_fd = socket(AF_INET,SOCK_STREAM,0);
     char buffer[1024] = {0};
     std::stringstream request;
-    std::string response("<html><body><h1>hello from the server</h1></body></html>");
+    std::string response;
     if(server_fd < 0)
     {
         throw std::runtime_error("socket failed");
@@ -189,15 +189,29 @@ void process_request(
                 response_stream << "syntax: div a b" << std::endl;
             }
         }
+        else if(request_array[0] == "help")
+        {
+            response_stream << "Available commands:" <<std::endl
+                            << "add" << std::endl
+                            << "sub" << std::endl
+                            << "mlt" << std::endl
+                            << "div" << std::endl
+                            << "exit" << std::endl;
+        }
+        else if(request_array[0] == "exit")
+        {
+            response_stream << "Goodbye!" << std::endl;
+        }
         else
         {
-            response_stream << "what the fug :D :D" << std::endl;
+            response_stream << "Invalid command."
+                            << "Try \"help\" for more information." 
+                            << std::endl;
         }
         response = response_stream.str();
     }
     else
     {
-        response = "blank request";
+        response = "no command";
     }
-    
 }
