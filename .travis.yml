@@ -8,5 +8,6 @@ before_script:
   - mkdir build
   - cd build
   - cmake .. -DBUILD_TESTS=ON
+  - make
 
 script: ctest
