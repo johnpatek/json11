@@ -1,5 +1,7 @@
 # json11
 
+[![Build Status](https://travis-ci.org/johnpatek/json11.svg?branch=master)](https://travis-ci.org/johnpatek/json11)
+
 json11 is a tiny JSON library for C++11, providing JSON parsing and serialization.
 
 The core object provided by the library is json11::Json. A Json object represents any JSON
