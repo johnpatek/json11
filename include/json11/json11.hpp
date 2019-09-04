@@ -119,10 +119,40 @@ public:
      * @param[in] value Boolean to be stored as a BOOL
      */
     Json(bool value);               // BOOL
+    
+    /**
+     * @brief Json String type constr
+     * 
+     * @param[in] value const string to be stored as a STRING
+     */
     Json(const std::string &value); // STRING
+    
+    /**
+     * @brief Json String type constr
+     * 
+     * @param[in] value string to be stored as a STRING
+     */
     Json(std::string &&value);      // STRING
+    
+    /**
+     * @brief Json String type constr
+     * 
+     * @param[in] value string literal to be stored as a STRING
+     */
     Json(const char * value);       // STRING
+
+    /**
+     * @brief Json Arrap type copy constr
+     * 
+     * @param[in] value array to be stored as a ARRAY
+     */
     Json(const array &values);      // ARRAY
+    
+    /**
+     * @brief Json Arrap type move constr
+     * 
+     * @param[in] value array to be stored as a ARRAY
+     */
     Json(array &&values);           // ARRAY
     Json(const object &values);     // OBJECT
     Json(object &&values);          // OBJECT
