@@ -4,7 +4,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN client_fd WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
  * file: server.cpp
@@ -18,10 +18,15 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#if defined(_WIN32)
+#pragma comment(lib,"Ws2_32.lib")
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <unistd.h> 
-
+#endif
 
 void process_request(
     const std::string& request,

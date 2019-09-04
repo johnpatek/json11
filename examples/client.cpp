@@ -18,9 +18,15 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#if defined(_WIN32)
+#pragma comment(lib,"Ws2_32.lib")
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <unistd.h> 
+#endif
 
 void tokenize(
     const std::string& line,
