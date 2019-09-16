@@ -1,18 +1,20 @@
-add_library(json11-dynamic SHARED json11.cpp)
+add_library(json11 STATIC json11.cpp)
 
-target_include_directories(json11-dynamic PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-add_library(json11-static STATIC json11.cpp)
-
-target_include_directories(json11-static PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
+target_include_directories(json11 PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
+if(WIN32)
+    set(INSTALL_DIRECTORY "C:\\Program Files\\json11")
+else()
+    set(INSTALL_DIRECTORY /usr)
+endif()
 
-install(TARGETS json11-dynamic json11-static
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+set(CMAKE_INSTALL_PREFIX ${INSTALL_DIRECTORY})
+
+install(TARGETS json11
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
         
 install(FILES ${PROJECT_SOURCE_DIR}/include/json11/json11.hpp 
-        DESTINATION include/json11/json11.hpp)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/json11)
