@@ -105,7 +105,7 @@ int main(const int argc, const char ** argv)
     json11::Json command;
     do
     {
-        std::cerr << "client@" << host << "$";
+        std::cerr << "client@" << host << "$ ";
         std::getline(std::cin,line);
         tokenize(line,tokens);
         serialize(tokens,command);
