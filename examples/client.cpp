@@ -93,21 +93,25 @@ void client(
     close(client_fd);
 }
 
-int main()
+int main(const int argc, const char ** argv)
 {
     int status(EXIT_SUCCESS);
     std::vector<std::string> tokens;
-    std::string line,message,error;
+    std::string line,message,error,host("127.0.0.1");
+    if(argc == 2)
+    {
+        host = argv[1];
+    }
     json11::Json command;
     do
     {
-        std::cerr << "client@127.0.0.1$ ";
+        std::cerr << "client@" << host << "$";
         std::getline(std::cin,line);
         tokenize(line,tokens);
         serialize(tokens,command);
         try
         {
-            client("127.0.0.1", 8080,command.dump());
+            client(host, 8080,command.dump());
         } 
         catch(std::exception& e)
         {
